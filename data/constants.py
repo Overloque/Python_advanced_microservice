@@ -1,0 +1,5 @@
+class Constants:
+    headers = {
+        'x-api-key': 'reqres-free-v1'
+    }
+
