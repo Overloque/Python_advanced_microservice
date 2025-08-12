@@ -49,4 +49,9 @@ class TestMyService:
         response = my_app_helper.get_user(headers=Constants.headers, user_id=user_id)
 
         assert response.status_code == HTTPStatus.OK, f"Expected status code {HTTPStatus.OK} but got {response.status_code}. {response.text}"
-        assert response.json()["data"]["email"] == "janet.weaver@reqres.in"
+        assert response.json()["email"] == "janet.weaver@reqres.in"
+
+    def test_get_users(self, my_app_helper):
+        response = my_app_helper.get_users(headers=Constants.headers)
+
+        assert response.status_code == HTTPStatus.OK, f"Expected status code {HTTPStatus.OK} but got {response.status_code}. {response.text}"

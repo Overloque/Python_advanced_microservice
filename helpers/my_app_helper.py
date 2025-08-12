@@ -12,6 +12,10 @@ class MyAppHelper:
     def _get_url(self, url: str):
         return f"{self.base_url}/{url}"
 
+    def get_users(self, headers):
+        url = "/"
+        return requests.get(url=self._get_url(url), headers=headers)
+
     def login_user(self, data, headers):
         url = "api/login"
         return requests.post(url=self._get_url(url), json=data, headers=headers)
