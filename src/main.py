@@ -1,4 +1,3 @@
-from datetime import datetime, timezone
 from http import HTTPStatus
 
 from fastapi import FastAPI, HTTPException
