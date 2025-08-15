@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from src.data import Constants
+from src.data.constants import Constants
 
 
 class TestMyService:

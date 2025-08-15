@@ -20,18 +20,18 @@
 | `POST`   | `/api/login` | Авторизация пользователя |
 ## Запуск
 
-1. **Установить зависимости:**
+1. **Установить зависимости**
 ```bash
-pip install -r requirements.txt 
+poetry install 
 ```
 
-2. **Запустить сервис:**
+2. **Запустить сервис**
 ```bash
-python src/main.py
+poetry run fastapi dev src/main.py
 ```
 Сервис доступен на `http://localhost:8000`
 
-3. **Запустить тесты:**
+3. **Запустить тесты**
 ```bash
-pytest
+poetry run pytest
 ```
