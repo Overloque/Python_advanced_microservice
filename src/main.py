@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from fastapi import FastAPI, HTTPException
 
-from data.constants import users, create_user_data, update_user_data
+from src.data import users, create_user_data, update_user_data
 
 app = FastAPI()
 

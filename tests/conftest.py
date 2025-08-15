@@ -2,7 +2,7 @@ import os
 import pytest
 from dotenv import load_dotenv
 
-from helpers.my_app_helper import MyAppHelper
+from src.helpers.my_app_helper import MyAppHelper
 
 load_dotenv()
 
