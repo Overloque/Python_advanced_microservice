@@ -1,5 +1,7 @@
 import requests
 
+from src.models.Pagination import Pagination
+
 
 class MyAppHelper:
     """
@@ -12,9 +14,9 @@ class MyAppHelper:
     def _get_url(self, url: str):
         return f"{self.base_url}/{url}"
 
-    def get_users(self, headers):
+    def get_users(self, headers, params: dict = None):
         url = "/"
-        return requests.get(url=self._get_url(url), headers=headers)
+        return requests.get(url=self._get_url(url), headers=headers, params=params)
 
     def login_user(self, data, headers):
         url = "api/login"
@@ -24,14 +26,14 @@ class MyAppHelper:
         url = "api/users"
         return requests.post(url=self._get_url(url), json=data, headers=headers)
 
-    def update_user(self, data, headers, user_id: int):
+    def update_user(self, headers, user_id: int):
         url = f"api/users/{user_id}"
-        return requests.put(url=self._get_url(url), json=data, headers=headers)
-
-    def delete_user(self, headers, user_id: int):
-        url = f"api/users/{user_id}"
-        return requests.delete(url=self._get_url(url), headers=headers)
+        return requests.put(url=self._get_url(url), json={}, headers=headers)
 
     def get_user(self, headers, user_id: int):
         url = f"api/users/{user_id}"
         return requests.get(url=self._get_url(url), headers=headers)
+
+    def get_status(self):
+        url = "status"
+        return requests.get(url=self._get_url(url))

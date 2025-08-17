@@ -1,15 +1,29 @@
+import json
+
+import uvicorn
+
 from http import HTTPStatus
-
 from fastapi import FastAPI, HTTPException
+from fastapi_pagination import add_pagination, Page, paginate
 
-from src.data.constants import users, create_user_data, update_user_data
+from src.data.constants import create_user_data, update_user_data
+from src.models.AppStatus import AppStatus
+from src.models.User import User
+
 
 app = FastAPI()
+add_pagination(app)
+users: list[User] = []
+
+
+@app.get("/status", status_code=HTTPStatus.OK)
+def status():
+    return AppStatus(users=bool(users))
 
 
 @app.get("/", status_code=HTTPStatus.OK)
-def get_users():
-    return users()
+def get_users() -> Page[User]:
+    return paginate(users)
 
 
 @app.post("/api/login", status_code=HTTPStatus.OK)
@@ -25,23 +39,22 @@ def create_user():
 
 
 @app.put("/api/users/{user_id}", status_code=HTTPStatus.OK)
-def update_user():
-    return update_user_data
-
-
-@app.delete("/api/users/{user_id}", status_code=HTTPStatus.NO_CONTENT)
-def delete_user():
-    return HTTPStatus.NO_CONTENT
+def update_user(user_id: int):
+    users[user_id - 1]["first_name"] = "updated_first_name"
+    return users[user_id - 1]
 
 
 @app.get("/api/users/{user_id}", status_code=HTTPStatus.OK)
 def get_user(user_id: int):
-    if user_id > len(users()) or user_id == 0:
+    if user_id > len(users) or user_id < 1:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User not found")
-    return users()[user_id - 1]
+    return users[user_id - 1]
 
 
 if __name__ == "__main__":
-    import uvicorn
+    with open("../users.json") as f:
+        users = json.load(f)
 
+    for user in users:
+        User.model_validate(user)
     uvicorn.run(app, host="127.0.0.1", port=8000)

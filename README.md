@@ -8,6 +8,7 @@
 - requests
 - python
 - Uvicorn
+- fastapi_pagination
 
 ## Эндпоинты
 
