@@ -6,10 +6,9 @@ from http import HTTPStatus
 from fastapi import FastAPI, HTTPException
 from fastapi_pagination import add_pagination, Page, paginate
 
-from src.data.constants import create_user_data, update_user_data
+from src.data.constants import create_user_data
 from src.models.AppStatus import AppStatus
 from src.models.User import User
-
 
 app = FastAPI()
 add_pagination(app)
@@ -51,10 +50,10 @@ def get_user(user_id: int):
     return users[user_id - 1]
 
 
-if __name__ == "__main__":
-    with open("../users.json") as f:
-        users = json.load(f)
+@app.on_event("startup")
+def load_users():
+    global users
+    with open("users.json", "r") as f:
+        raw_users = json.load(f)
+    users = [User(**user) for user in raw_users]
 
-    for user in users:
-        User.model_validate(user)
-    uvicorn.run(app, host="127.0.0.1", port=8000)
